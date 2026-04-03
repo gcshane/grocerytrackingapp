@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from api.v1 import lists
+from db.init_db import init_db
 
 app = FastAPI()
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
+app.include_router(lists.router)
 
 origins = [
     "http://localhost.tiangolo.com",
