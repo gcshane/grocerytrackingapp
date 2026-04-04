@@ -1,14 +1,10 @@
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import Field, SQLModel
 from datetime import date
-from core.config import config
-
-engine = create_engine(config.DB_URL)
-# session = sessionmaker(bind=engine)
 
 class User(SQLModel, table=True):
     user_id : int | None = Field(default=None, primary_key=True)
     name : str
-    email : str
+    username : str = Field(index=True)
     password : str
     alert : bool
 
