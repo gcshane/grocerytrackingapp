@@ -2,3 +2,5 @@ fastapi[standard]==0.113.0
 hypercorn==0.14.4
 sqlmodel==0.0.38
 psycopg2==2.9.11
+PyJWT==2.12.1
+pwdlib[argon2]==0.3.0
