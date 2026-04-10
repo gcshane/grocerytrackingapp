@@ -346,17 +346,17 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "fastapi", extras = ["standard"], specifier = "==0.113.0" },
-    { name = "psycopg2", specifier = "==2.9.11" },
-    { name = "pwdlib", extras = ["argon2"], specifier = "==0.3.0" },
-    { name = "pyjwt", specifier = "==2.12.1" },
-    { name = "sqlmodel", specifier = "==0.0.38" },
+    { name = "fastapi", extras = ["standard"], specifier = ">=0.113.0" },
+    { name = "psycopg2", specifier = ">=2.9.11" },
+    { name = "pwdlib", extras = ["argon2"], specifier = ">=0.3.0" },
+    { name = "pyjwt", specifier = ">=2.12.1" },
+    { name = "sqlmodel", specifier = ">=0.0.38" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "httpx", specifier = "==0.28.1" },
-    { name = "pytest", specifier = "==9.0.3" },
+    { name = "httpx", specifier = ">=0.28.1" },
+    { name = "pytest", specifier = ">=9.0.3" },
 ]
 
 [[package]]
