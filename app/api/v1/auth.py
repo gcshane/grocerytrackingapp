@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 from app.dependencies import SessionDep
 from app.services.auth_services import login_service
 
