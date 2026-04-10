@@ -39,9 +39,9 @@ grocerytrackingapp/
 │   ├── dependencies.py  # FastAPI dependency injection
 │   └── main.py          # App entrypoint
 ├── design/              # Database design diagrams
-├── tests/
-├── requirements.txt
-└── railway.json         # Railway deployment config
+├── tests/               # Unit tests
+├── pyproject.toml       # uv dependency management
+└── railway.json         # Legacy Railway deployment config
 ```
 
 ## 📊 Database Schema
@@ -63,7 +63,8 @@ grocerytrackingapp/
 
 ### Prerequisites
 
-- Python 3.11+
+- Python 3.13.3+
+- [uv](https://docs.astral.sh/uv/) package manager
 - PostgreSQL database (or a [Supabase](https://supabase.com/) project)
 
 ### Installation
@@ -75,26 +76,20 @@ grocerytrackingapp/
    cd grocerytrackingapp
    ```
 
-2. **Create and activate a virtual environment**
+2. **Install dependencies**
+
+   This automatically creates a virtual environment and installs everything:
 
    ```bash
-   python -m venv .venv
-   source .venv/bin/activate   # macOS / Linux
-   .venv\Scripts\activate      # Windows
-   ```
-
-3. **Install dependencies**
-
-   ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
 4. **Configure environment variables**
 
-   Create a `.env` file in the `app/` directory:
+   Create a `.env` file in the project directory:
 
    ```env
-   SUPABASE_URL=postgresql://user:password@host:port/dbname
+   DATABASE_URL=postgresql://user:password@host:port/dbname
    JWT_SECRET_KEY=your-secret-key
    JWT_ALGORITHM=HS256
    ACCESS_TOKEN_EXPIRE_MINUTES=30
@@ -103,10 +98,15 @@ grocerytrackingapp/
 5. **Run the development server**
 
    ```bash
-   uvicorn app.main:app --reload
+   uv run uvicorn app.main:app --reload
    ```
 
    The API will be available at `http://localhost:8000`.
+
+### Development & Testing
+
+- **Run unit tests**: `uv run pytest`
+- **Lint the code**: `uvx ruff check .`
 
 ### API Documentation
 
@@ -129,14 +129,11 @@ FastAPI auto-generates interactive docs:
 
 ## 🌐 Deployment
 
-This project is configured for deployment on [Railway](https://railway.com/) using Railpack. The configuration is defined in `railway.json`:
+The API is configured for seamless continuous deployment to **FastAPI Cloud** via GitHub Actions.
 
-```json
-{
-  "build": { "builder": "RAILPACK" },
-  "deploy": { "startCommand": "uvicorn app.main:app --host 0.0.0.0" }
-}
-```
+When code is pushed to the `main` branch, the `.github/workflows/deploy.yaml` pipeline automatically provisions the `uv` environment and ships the latest code using `uv run fastapi deploy`.
+
+*(Note: There is also legacy support for Railway deployment via `railway.json`)*
 
 ## 📄 License
 

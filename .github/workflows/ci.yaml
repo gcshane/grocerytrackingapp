@@ -5,20 +5,22 @@ on:
     branches: [dev]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   test:
+    name: "Test"
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v7
 
       - name: Install dependencies
-        run: pip install -r requirements-dev.txt
+        run: uv sync
 
       - name: Run tests
         env:
@@ -26,9 +28,7 @@ jobs:
           ACCESS_TOKEN_EXPIRE_MINUTES: "30"
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           JWT_ALGORITHM: "HS256"
-        run: pytest
+        run: uv run pytest
 
       - name: Lint
-        run: |
-          pip install ruff
-          ruff check .
+        run: uvx ruff check .

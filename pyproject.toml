@@ -2,20 +2,19 @@
 name = "grocerytracker-api"
 version = "0.1.0"
 description = "Grocery Tracker API"
-requires-python = ">=3.12"
+requires-python = ">=3.13.3"
 dependencies = [
-    "fastapi[standard]==0.113.0",
-    "hypercorn==0.14.4",
-    "sqlmodel==0.0.38",
-    "psycopg2==2.9.11",
-    "PyJWT==2.12.1",
-    "pwdlib[argon2]==0.3.0",
+    "fastapi[standard]>=0.113.0",
+    "sqlmodel>=0.0.38",
+    "psycopg2>=2.9.11",
+    "PyJWT>=2.12.1",
+    "pwdlib[argon2]>=0.3.0",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest==9.0.3",
-    "httpx==0.28.1",
+    "pytest>=9.0.3",
+    "httpx>=0.28.1",
 ]
 
 [tool.pytest.ini_options]
