@@ -105,7 +105,7 @@ grocerytrackingapp/
 
 ### Development & Testing
 
-- **Run unit tests**: `uv run pytest`
+- **Run unit tests**: `uv run pytest -v`
 - **Lint the code**: `uvx ruff check .`
 
 ### API Documentation

@@ -28,7 +28,7 @@ def login_service(session: SessionDep, form_data: OAuth2PasswordRequestForm):
     token = Token(access_token = encoded_jwt, token_type = "bearer")
     return token
 
-async def get_current_user(session: SessionDep, token: str = Depends(oauth2_scheme)):
+def decode_jwt_token(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code = status.HTTP_401_UNAUTHORIZED,
         detail = "Could not validate credentials",
@@ -39,6 +39,7 @@ async def get_current_user(session: SessionDep, token: str = Depends(oauth2_sche
         user_id = payload.get("sub")
         if user_id is None:
             raise credentials_exception
+        return user_id
     except ExpiredSignatureError:
         raise HTTPException(
             status_code = status.HTTP_401_UNAUTHORIZED,
@@ -47,7 +48,13 @@ async def get_current_user(session: SessionDep, token: str = Depends(oauth2_sche
         )
     except InvalidTokenError:
         raise credentials_exception
+
+async def get_current_user(session: SessionDep, user_id: str = Depends(decode_jwt_token)):
     user = get_user_by_id(user_id, session)
     if user is None:
-        raise credentials_exception
+        raise HTTPException(
+            status_code = status.HTTP_401_UNAUTHORIZED,
+            detail = "Could not validate credentials",
+            headers = {"WWW-Authenticate": "Bearer"}
+        )
     return user
